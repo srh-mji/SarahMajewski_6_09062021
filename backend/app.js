@@ -12,15 +12,18 @@ const helmet = require("helmet");
 // Access to the path of our file system
 const path = require('path');
 
-// Routes declaration
-const saucesRoutes = require('./routes/sauces');
-const userRoutes = require('./routes/user');
+// Sanitize the received data, and remove any offending keys, or replace the characters with a 'safe' one.
+const mongoSanitize = require('express-mongo-sanitize');
 
 // Hide database connection information
 require('dotenv').config();
 
+// Routes declaration
+const saucesRoutes = require('./routes/sauces');
+const userRoutes = require('./routes/user');
+
 // Connection to the MongoDB database
-mongoose.connect('mongodb+srv://sauce:cbJjkmSvkM9u1c9u@cluster0.gllqi.mongodb.net/test?retryWrites=true&w=majority', {
+mongoose.connect(process.env.DB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex : true
@@ -44,6 +47,9 @@ app.use(express.json());
 
 // Secure Express
 app.use(helmet());
+
+
+app.use(mongoSanitize());
 
 // Middleware which allows you to load the files in the images directory
 app.use('/images', express.static(path.join(__dirname, 'images')));
