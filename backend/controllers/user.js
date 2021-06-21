@@ -1,7 +1,11 @@
+// Get bcrypt for hash password
 const bcrypt = require('bcrypt');
+// Get user model
 const User = require('../models/User');
+// Get jsonwebtoken for assign a token to a user when they connect
 const jwt = require('jsonwebtoken');
 
+// Middleware that save a user and hash the password
 exports.signup = (req, res, next) => {
     bcrypt.hash(req.body.password, 10)
       .then(hash => {
@@ -16,6 +20,7 @@ exports.signup = (req, res, next) => {
       .catch(error => res.status(500).json({ error }));
   };
 
+  // Middleware for login that checks if the user exist in MogonDB database, if yes it verifies the password, and if it's correct, it returns a TOKEN 
   exports.login = (req, res, next) => {
     User.findOne({ email: req.body.email })
       .then(user => {

@@ -1,5 +1,7 @@
+// Get mongoose
 const mongoose = require('mongoose');
 
+// Create mongoose Schema
 const sauceSchema = mongoose.Schema({
   // UserId 
   userId: {
@@ -54,4 +56,5 @@ const sauceSchema = mongoose.Schema({
   },
 })
 
+// Export sauceSchema for being able to use model sauce to interact with the application
 module.exports = mongoose.model('Sauce', sauceSchema);
