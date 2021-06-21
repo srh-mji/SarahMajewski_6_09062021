@@ -1,5 +1,7 @@
+// Get jsonwebtoken
 const jwt = require('jsonwebtoken');
 
+// Middleware which will be applied to all roads to secure them
 module.exports = (req, res, next) => {
   try {
     const token = req.headers.authorization.split(' ')[1];
